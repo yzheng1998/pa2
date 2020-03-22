@@ -1,10 +1,11 @@
 
 # matrix multiplication code from pset1
+import numpy as np
 
 
 def matrix_mult(a, b):
     n = len(a)
-    result = [[0]*n]*n
+    result = np.zeros([n, n])
     for i in range(n):
         for j in range(n):
             for k in range(n):
@@ -19,4 +20,5 @@ y = matrix_mult(
     [[2, 5],
      [3, 1]]
 )
+
 print(y)
