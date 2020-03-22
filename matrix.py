@@ -5,7 +5,7 @@ import numpy as np
 
 def matrix_mult(a, b):
     n = len(a)
-    result = np.zeros([n, n])
+    result = np.zeros([n, n], dtype=int)
     for i in range(n):
         for j in range(n):
             for k in range(n):
