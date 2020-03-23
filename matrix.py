@@ -16,7 +16,7 @@ def matrix_mult(a, b):
 
 def add(a, b):
     n = len(a)
-    result = a
+    result = deepcopy(a)
     for i in range(n):
         for j in range(n):
             result[i][j] += b[i][j]
@@ -25,7 +25,7 @@ def add(a, b):
 
 def subtract(a, b):
     n = len(a)
-    result = a
+    result = deepcopy(a)
     for i in range(n):
         for j in range(n):
             result[i][j] -= b[i][j]
@@ -70,10 +70,10 @@ def strassen_mult(a, b):
     result = np.zeros((n, n)).astype('int')
 
     # Replace C
-    result[0:int(n/2), 0:int(n/2)] = q_1
-    result[0:int(n/2), int(n/2):] = q_2
-    result[int(n/2):, 0:int(n/2)] = q_3
-    result[int(n/2):, int(n/2):] = q_4
+    result[0:int(n/2), 0:int(n/2)] = deepcopy(q_1)
+    result[0:int(n/2), int(n/2):] = deepcopy(q_2)
+    result[int(n/2):, 0:int(n/2)] = deepcopy(q_3)
+    result[int(n/2):, int(n/2):] = deepcopy(q_4)
 
     return(result)
 
@@ -100,7 +100,7 @@ y = np.array([[2, 5, 7, 5],
 #               [3, 1, 12],
 #               [1, 3, 2]])
 
-# print(strassen_mult(x, y))
+print(strassen_mult(x, y))
 print(matrix_mult(x, y))
 print(np.dot(x, y))
 
