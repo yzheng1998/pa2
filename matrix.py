@@ -58,6 +58,7 @@ def strassen_mult(a, b):
     p_5 = strassen_mult(add(A, D), add(E, H))
     p_6 = strassen_mult(subtract(B, D), add(G, H))
     p_7 = strassen_mult(subtract(A, C), add(E, F))
+    # print(p_1, p_2, p_3, p_4, p_5, p_6, p_7)
 
     # define q's
     q_1 = add(subtract(add(p_5, p_4), p_2), p_6)
@@ -77,19 +78,34 @@ def strassen_mult(a, b):
     return(result)
 
 
-print(strassen_mult(
-    np.array([[2, 3, 4, 5],
+x = np.array([[2, 3, 4, 5],
               [2, 2, 6, 7],
               [3, 2, 4, 8],
-              [1, 2, 3, 4]]),
+              [1, 2, 3, 4]])
 
-    np.array([[2, 5, 7, 5],
+y = np.array([[2, 5, 7, 5],
               [3, 1, 12, 1],
               [1, 3, 2, 4],
               [4, 5, 6, 9]])
-))
 
-y = matrix_mult(
+# x = np.array([[2, 3],
+#               [2, 2]])
+# y = np.array([[2, 5],
+#               [3, 1]])
+
+# x = np.array([[2, 3, 4],
+#               [2, 2, 6],
+#               [3, 2, 4]])
+# y = np.array([[2, 5, 7],
+#               [3, 1, 12],
+#               [1, 3, 2]])
+
+# print(strassen_mult(x, y))
+print(matrix_mult(x, y))
+print(np.dot(x, y))
+
+
+z = matrix_mult(
     [[2, 3, 4],
      [2, 2, 6],
      [3, 2, 4]],
