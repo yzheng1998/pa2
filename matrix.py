@@ -33,6 +33,9 @@ def subtract(a, b):
 def strassen_mult(a, b):
     n = len(a)
 
+    # base case 
+    if n == 1: 
+        return(matrix_mult(a, b))
     # even case
 
     # define LETTERS
@@ -54,9 +57,25 @@ def strassen_mult(a, b):
     p_6 = strassen_mult(subtract(B, D), add(G, H))
     p_7 = strassen_mult(subtract(A, C), add(E, F))
 
-    
 
-    
+    # define q's
+    q_1 = add(subtract(add(p_5, p_4), p_2), p_6)
+    q_2 = add(p_1, p_2)
+    q_3  = add(p_3, p_4) 
+    q_4 = subtract(subtract(add(p_5, p_1), p_3), p_7) 
+
+    # Allocate zeros to C
+    result = np.zeros((n,n)).astype('int')
+
+    # Replace C
+    result[0:int(n/2),0:int(n/2)] = q_1
+    result[0:int(n/2),int(n/2): ]= q_2
+    result[int(n/2) : , 0:int(n/2)] = q_3
+    result[int(n/2) : , int(n/2) :] = q_4
+
+    return(result)
+
+
 
 
 print(strassen_mult(
@@ -82,3 +101,8 @@ y = matrix_mult(
 )
 
 # print(y)
+
+    # q_1 = np.array([[1,2], [3,4]])
+    # q_2 = np.array([[5,6],[7,8]])
+    # q_3 = np.array([[1,5], [8,9]])
+    # q_4 = np.array([[12,6],[1,2]])
