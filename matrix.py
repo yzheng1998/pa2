@@ -2,7 +2,7 @@
 # matrix multiplication code from pset1
 import numpy as np
 from copy import deepcopy
-
+from time import time 
 
 def matrix_mult(a, b):
     n = len(a)
@@ -36,7 +36,7 @@ def strassen_mult(a, b):
     n = len(a)
 
     # base case
-    if n == 1:
+    if n < 996:
         return(matrix_mult(a, b))
     # even case
 
@@ -117,9 +117,21 @@ z = matrix_mult(
 # q_2 = np.array([[5,6],[7,8]])
 # q_3 = np.array([[1,5], [8,9]])
 # q_4 = np.array([[12,6],[1,2]])
-a = np.random.randint(0, 2, (256, 256))
-b = np.random.randint(0, 2, (256, 256))
 
-print(strassen_mult(a, b))
+pow = 10
+a = np.random.randint(0, 2, (2**pow, 2**pow))
+b = np.random.randint(0, 2, (2**pow, 2**pow))
+
+start = time()
+strassen_mult(a, b)
+end = time()
+print("Strassen's: ", end = "")
+print(end-start)
+
+start_2 = time()
+matrix_mult(a, b)
+end_2 = time()
+print("Traditional: ", end = "")
+print(end_2 - start_2)
 # print(matrix_mult(x, y))
 # print(np.dot(a, b))
