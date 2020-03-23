@@ -100,10 +100,6 @@ y = np.array([[2, 5, 7, 5],
 #               [3, 1, 12],
 #               [1, 3, 2]])
 
-print(strassen_mult(x, y))
-print(matrix_mult(x, y))
-print(np.dot(x, y))
-
 
 z = matrix_mult(
     [[2, 3, 4],
@@ -121,3 +117,9 @@ z = matrix_mult(
 # q_2 = np.array([[5,6],[7,8]])
 # q_3 = np.array([[1,5], [8,9]])
 # q_4 = np.array([[12,6],[1,2]])
+a = np.random.randint(0, 2, (256, 256))
+b = np.random.randint(0, 2, (256, 256))
+
+print(strassen_mult(a, b))
+# print(matrix_mult(x, y))
+# print(np.dot(a, b))
