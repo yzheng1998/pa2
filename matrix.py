@@ -136,11 +136,19 @@ print("Traditional: ", end="")
 print(end_2 - start_2)
 
 
-graph = np.random.binomial(1, .02, (2**10, 2**10))
+graph = np.random.binomial(1, .02, (2**5, 2**5))
+adj = graph + graph.T - np.diag(graph.diagonal())
+print(adj)
 
-cubed_graph = strassen_mult(graph, strassen_mult(graph, graph))
+cubed_adj = strassen_mult(adj, strassen_mult(adj, adj))
 
-print(cubed_graph)
+print(cubed_adj)
+triangles = 0
+for i in range(len(adj)):
+    triangles += cubed_adj[i][i]
+
+triangles /= 6
+print(triangles)
 
 # print(matrix_mult(x, y))
 # print(np.dot(a, b))
