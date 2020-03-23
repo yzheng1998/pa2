@@ -2,7 +2,8 @@
 # matrix multiplication code from pset1
 import numpy as np
 from copy import deepcopy
-from time import time 
+from time import time
+
 
 def matrix_mult(a, b):
     n = len(a)
@@ -118,20 +119,28 @@ z = matrix_mult(
 # q_3 = np.array([[1,5], [8,9]])
 # q_4 = np.array([[12,6],[1,2]])
 
-pow = 10
+pow = 3
 a = np.random.randint(0, 2, (2**pow, 2**pow))
 b = np.random.randint(0, 2, (2**pow, 2**pow))
 
 start = time()
 strassen_mult(a, b)
 end = time()
-print("Strassen's: ", end = "")
+print("Strassen's: ", end="")
 print(end-start)
 
 start_2 = time()
 matrix_mult(a, b)
 end_2 = time()
-print("Traditional: ", end = "")
+print("Traditional: ", end="")
 print(end_2 - start_2)
+
+
+graph = np.random.binomial(1, .02, (2**10, 2**10))
+
+cubed_graph = strassen_mult(graph, strassen_mult(graph, graph))
+
+print(cubed_graph)
+
 # print(matrix_mult(x, y))
 # print(np.dot(a, b))
