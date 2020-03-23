@@ -13,12 +13,22 @@ def matrix_mult(a, b):
     return(result)
 
 
-y = matrix_mult(
-    [[2, 3],
-     [2, 2]],
+def add(a, b):
 
-    [[2, 5],
-     [3, 1]]
+
+def strassen_mult(a, b):
+    n = len(a)
+    # even case
+
+
+y = matrix_mult(
+    [[2, 3, 4],
+     [2, 2, 6],
+     [3, 2, 4]],
+
+    [[2, 5, 7],
+     [3, 1, 12],
+     [1, 3, 2]]
 )
 
 print(y)
