@@ -1,6 +1,7 @@
 
 # matrix multiplication code from pset1
 import numpy as np
+import random
 from copy import deepcopy
 from time import time
 
@@ -32,6 +33,7 @@ def subtract(a, b):
             result[i][j] -= b[i][j]
     return(result)
 
+
 def strassen_mult(a, b):
     n = len(a)
 
@@ -42,13 +44,13 @@ def strassen_mult(a, b):
 
     # new define LETTERS
     A = [[0 for y in range(int(n/2))] for x in range(int(n/2))]
-    for i in range(int(n/2)): 
-        for j in range(int(n/2)): 
+    for i in range(int(n/2)):
+        for j in range(int(n/2)):
             A[i][j] = a[i][j]
 
     B = [[0 for y in range(int(n/2))] for x in range(int(n/2))]
-    for i in range(int(n/2)): 
-        for j in range(int(n/2)): 
+    for i in range(int(n/2)):
+        for j in range(int(n/2)):
             B[i][j] = a[i][j + int(n/2)]
 
     C = [[0 for y in range(int(n/2))] for x in range(int(n/2))]
@@ -62,13 +64,13 @@ def strassen_mult(a, b):
             D[i][j] = a[i + int(n/2)][j + int(n/2)]
 
     E = [[0 for y in range(int(n/2))] for x in range(int(n/2))]
-    for i in range(int(n/2)): 
-        for j in range(int(n/2)): 
+    for i in range(int(n/2)):
+        for j in range(int(n/2)):
             E[i][j] = b[i][j]
 
     F = [[0 for y in range(int(n/2))] for x in range(int(n/2))]
-    for i in range(int(n/2)): 
-        for j in range(int(n/2)): 
+    for i in range(int(n/2)):
+        for j in range(int(n/2)):
             F[i][j] = b[i][j + int(n/2)]
 
     G = [[0 for y in range(int(n/2))] for x in range(int(n/2))]
@@ -114,17 +116,17 @@ def strassen_mult(a, b):
     for i in range(int(n/2)):
         for j in range(int(n/2)):
             result[i][j] = q_1[i][j]
-    
+
     for i in range(int(n/2)):
-        for j in range(int(n/2)): 
+        for j in range(int(n/2)):
             result[i][j + int(n/2)] = q_2[i][j]
-    
-    for i in range(int(n/2)): 
-        for j in range(int(n/2)): 
+
+    for i in range(int(n/2)):
+        for j in range(int(n/2)):
             result[i + int(n/2)][j] = q_3[i][j]
-    
-    for i in range(int(n/2)): 
-        for j in range(int(n/2)): 
+
+    for i in range(int(n/2)):
+        for j in range(int(n/2)):
             result[i + int(n/2)][j + int(n/2)] = q_4[i][j]
     # result[0:int(n/2), 0:int(n/2)] = deepcopy(q_1)
     # result[0:int(n/2), int(n/2):] = deepcopy(q_2)
@@ -143,15 +145,16 @@ def strassen_mult(a, b):
 #               [1, 3, 2, 4],
 #               [4, 5, 6, 9]])
 
+
 x = [[2, 3, 4, 5],
-    [2, 2, 6, 7],
-    [3, 2, 4, 8],
-    [1, 2, 3, 4]]
+     [2, 2, 6, 7],
+     [3, 2, 4, 8],
+     [1, 2, 3, 4]]
 
 y = [[2, 5, 7, 5],
-    [3, 1, 12, 1],
-    [1, 3, 2, 4],
-    [4, 5, 6, 9]]
+     [3, 1, 12, 1],
+     [1, 3, 2, 4],
+     [4, 5, 6, 9]]
 
 print(strassen_mult(x, y))
 # x = np.array([[2, 3],
@@ -203,23 +206,77 @@ print(strassen_mult(x, y))
 
 # # Problem 3
 
-# graph = np.random.binomial(1, .02, (2**5, 2**5))
-# adj = graph + graph.T - np.diag(graph.diagonal())
-# print("adj\n", adj)
+# adj = np.array([[0, 1, 1, 0],
+#                 [1, 0, 1, 1],
+#                 [1, 1, 0, 1],
+#                 [0, 1, 1, 0]])
+
+V = 1024
+p = .05
 
 
-# def trace(graph):
-#     trace = 0
-#     for i in range(len(adj)):
-#         trace += graph[i][i]
-#     return trace
+def generateGraph(prob):
+    graph = np.array([[0] * V for i in range(V)])
+    for i in range(V):
+        for j in range(V):
+            if (i < j):
+                graph[i][j] = int(random.random() < prob)
+    for i in range(V):
+        for j in range(V):
+            if (i > j):
+                graph[i][j] = deepcopy(graph[j][i])
+    return graph
 
 
-# def triangles(graph):
-#     return 0
+def trace(graph):
+    trace = 0
+    for i in range(V):
+        trace += graph[i][i]
+    return trace
 
 
-# print(triangles(adj))
+def triangles(adj):
+    cubed_adj = strassen_mult(
+        deepcopy(adj), strassen_mult(deepcopy(adj), deepcopy(adj)))
+    print(trace(cubed_adj))
+    triangles = trace(cubed_adj)
+    return triangles // 6
+
+
+CONSTANT = 178433024
+
+
+def expected():
+    expectedArr = []
+    for i in range(1, 6):
+        prob = i / 100
+        expectedArr.extend([CONSTANT*(prob**3)])
+    return expectedArr
+
+
+def experiment_prob(runs, prob):
+    total = 0
+    for i in range(runs):
+        adj = generateGraph(prob)
+        total += triangles(adj)
+    ave = total / runs
+    return ave
+
+
+def experiment():
+    results = []
+    for i in range(1, 6):
+        prob = i / 100
+        print(prob)
+        results.extend(experiment_prob(5, prob))
+    return results
+
+
+print(expected())
+print(experiment())
+
+
+print("expected", expected(p))
 
 # print(matrix_mult(x, y))
 # print(np.dot(a, b))
