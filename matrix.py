@@ -136,19 +136,25 @@ print("Traditional: ", end="")
 print(end_2 - start_2)
 
 
+# Problem 3
+
 graph = np.random.binomial(1, .02, (2**5, 2**5))
 adj = graph + graph.T - np.diag(graph.diagonal())
-print(adj)
+print("adj\n", adj)
 
-cubed_adj = strassen_mult(adj, strassen_mult(adj, adj))
 
-print(cubed_adj)
-triangles = 0
-for i in range(len(adj)):
-    triangles += cubed_adj[i][i]
+def trace(graph):
+    trace = 0
+    for i in range(len(adj)):
+        trace += graph[i][i]
+    return trace
 
-triangles /= 6
-print(triangles)
+
+def triangles(graph):
+    return 0
+
+
+print(triangles(adj))
 
 # print(matrix_mult(x, y))
 # print(np.dot(a, b))
