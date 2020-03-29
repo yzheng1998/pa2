@@ -1,6 +1,8 @@
+import sys
 import random
 from copy import deepcopy
 from time import time
+import fileinput
 
 
 def matrix_mult(a, b):
@@ -120,33 +122,60 @@ def randomMatrix(n):
     matrix = [[0] * n for i in range(n)]
     for i in range(n):
         for j in range(n):
-            matrix[i][j] = random.randint(0, 1)
+            matrix[i][j] = random.randint(-1, 1)
     return matrix
 
 
-pow = 9
-a = randomMatrix(2**pow)
-b = randomMatrix(2**pow)
+def test(n):
+    a = randomMatrix(n)
+    b = randomMatrix(n)
+    print("Strassen's")
+    print("Traditional")
+    start = time()
+    strassen = strassen_mult(a, b)
+    end = time()
+    strassen_time = end-start
+    print(strassen_time)
 
-print("Strassen's")
-print("Traditional")
-start = time()
-strassen = strassen_mult(a, b)
-end = time()
-strassen_time = end-start
-print(strassen_time)
+    start_2 = time()
+    traditional = matrix_mult(a, b)
+    end_2 = time()
+    traditional_time = end_2 - start_2
+    print(traditional_time)
 
-start_2 = time()
-traditional = matrix_mult(a, b)
-end_2 = time()
-traditional_time = end_2 - start_2
-print(traditional_time)
+    print("Strassen's is faster:", strassen_time < traditional_time)
+    print("Strassen's is correct:", strassen == traditional)
 
-print("Strassen's is faster:", strassen_time < traditional_time)
+
+dim = int(sys.argv[2])
+
+matrixArr = []
+for line in fileinput.input(sys.argv[3]):
+    matrixArr.extend([int(line)])
+
+
+def createMatrices():
+    a = [[0] * dim for i in range(dim)]
+    b = [[0] * dim for i in range(dim)]
+    for i in range(dim):
+        for j in range(dim):
+            a[i][j] = matrixArr.pop(0)
+    for i in range(dim):
+        for j in range(dim):
+            b[i][j] = matrixArr.pop(0)
+    return a, b
+
+
+a, b = createMatrices()
+product = strassen_mult(a, b)
+for i in range(dim):
+    print(product[i][i])
+
+# pow = 8
+# test(2**pow)
 
 
 # Problem 3
-
 V = 1024
 p = .05
 
